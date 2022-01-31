@@ -1,4 +1,13 @@
-import {Box, Center, useColorModeValue, Heading, Text, Stack, Image} from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  useColorModeValue,
+  Heading,
+  Text,
+  Stack,
+  Image,
+  Spacer,
+} from "@chakra-ui/react";
 
 function ProductCard({product}) {
   const IMAGE = product.image;
@@ -7,8 +16,9 @@ function ProductCard({product}) {
     <Center py={12}>
       <Box
         bg={useColorModeValue("white", "gray.800")}
-        boxShadow={"2xl"}
-        maxW={"330px"}
+        boxShadow={"xl"}
+        h={"450px"}
+        maxW={"220px"}
         p={6}
         pos={"relative"}
         role={"group"}
@@ -21,21 +31,23 @@ function ProductCard({product}) {
         </Box>
         <Stack align={"center"} pt={10}>
           <Text color={"gray.500"} fontSize={"sm"} textTransform={"uppercase"}>
-            Brand
+            {product.category}
           </Text>
-          <Heading fontFamily={"body"} fontSize={"2xl"} fontWeight={500}>
-            Nice Chair, pink
-          </Heading>
+          <Box>
+            <Heading fontFamily={"body"} fontSize={"md"} fontWeight={500}>
+              <Text isTruncated align={"center"} h={75} whiteSpace={"wrap"}>
+                {product.title}
+              </Text>
+            </Heading>
+          </Box>
           <Stack align={"center"} direction={"row"}>
             <Text fontSize={"xl"} fontWeight={800}>
-              $57
-            </Text>
-            <Text color={"gray.600"} textDecoration={"line-through"}>
-              $199
+              ${product.price}
             </Text>
           </Stack>
         </Stack>
       </Box>
+      <Spacer />
     </Center>
   );
 }

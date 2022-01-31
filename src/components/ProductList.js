@@ -1,14 +1,17 @@
 import React from "react";
-import axios from "axios";
+import {Stack} from "@chakra-ui/react";
+
+import {getProducts} from "../services/productsService";
 
 import ProductCard from "./ProductCard";
 
 function ProductList() {
-  const baseURL = "https://fakestoreapi.com/products?limit=10";
+  //const baseURL = "https://fakestoreapi.com/products?limit=12";
   const [products, setProducts] = React.useState([]);
 
   React.useEffect(() => {
-    axios.get(baseURL).then((response) => {
+    getProducts().then((response) => {
+      console.log(response);
       setProducts(response.data);
     });
   }, []);
@@ -18,9 +21,9 @@ function ProductList() {
   });
 
   return (
-    <div>
-      <ul>{listProducts}</ul>
-    </div>
+    <Stack direction={"row"} flex="1" justify="space-around" width={"100%}"} wrap="wrap">
+      {listProducts}
+    </Stack>
   );
 }
 

@@ -1,14 +1,16 @@
-import {Container} from "@chakra-ui/react";
+import {Box, Container} from "@chakra-ui/react";
 
 import Title from "./components/Title";
 import ProductList from "./components/ProductList";
 
 function App() {
   return (
-    <Container centerContent maxW="container.sm">
-      <Title />
-      <ProductList />
-    </Container>
+    <Box background="gray.50">
+      <Container maxW="container.lg">
+        <Title />
+        <ProductList />
+      </Container>
+    </Box>
   );
 }
 
