@@ -3,26 +3,41 @@ import {Stack} from "@chakra-ui/react";
 
 import {getProducts} from "../services/productsService";
 
+import ProductSkeleton from "./ProductSkeleton";
 import ProductCard from "./ProductCard";
 
 function ProductList() {
-  //const baseURL = "https://fakestoreapi.com/products?limit=12";
   const [products, setProducts] = React.useState([]);
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
+  async function fetchProducts() {
+    try {
+      const response = await getProducts();
+      const data = await response.data;
+
+      setProducts(data);
+      setIsLoaded(true);
+    } catch (error) {
+      alert(error);
+    }
+  }
 
   React.useEffect(() => {
-    getProducts().then((response) => {
-      console.log(response);
-      setProducts(response.data);
-    });
+    fetchProducts();
   }, []);
 
   const listProducts = products.map((product, index) => {
     return <ProductCard key={index} product={product} />;
   });
 
+  const skeletons = [1, 2, 3, 4];
+  const skeletonList = skeletons.map((index) => {
+    return <ProductSkeleton key={index} />;
+  });
+
   return (
     <Stack direction={"row"} flex="1" justify="space-around" width={"100%}"} wrap="wrap">
-      {listProducts}
+      {!isLoaded ? skeletonList : listProducts}
     </Stack>
   );
 }
