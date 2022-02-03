@@ -1,14 +1,14 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {Stack} from "@chakra-ui/react";
 
-import {getProducts} from "../services/productsService";
+import {getProducts} from "../../../services/productsService";
 
 import ProductSkeleton from "./ProductSkeleton";
 import ProductCard from "./ProductCard";
 
 function ProductList() {
-  const [products, setProducts] = React.useState([]);
-  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [products, setProducts] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   async function fetchProducts() {
     try {
@@ -22,7 +22,7 @@ function ProductList() {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchProducts();
   }, []);
 
