@@ -13,31 +13,27 @@ import {
   useColorModeValue,
   Badge,
 } from "@chakra-ui/react";
-import React, {useState, useEffect} from "react";
+import React, {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
 
-import {getProductsDetails} from "../../../services/detailsService";
+import {getProduct, resetStatus} from "../../../redux/productSlice";
 
 import DetailSkeleton from "./DetailSkeleton";
 import Rating from "./Rating";
 
 export default function ProductDetails({id}) {
-  const [productDetails, setProductsDetails] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const dispatch = useDispatch();
+  const {product} = useSelector((state) => state.product);
+  const isLoaded = useSelector((state) => state.product.status);
 
   useEffect(() => {
-    async function fetchProductsDetails() {
-      try {
-        const response = await getProductsDetails(id);
-        const data = await response.data;
+    dispatch(getProduct(id));
 
-        setProductsDetails(data);
-        setIsLoaded(true);
-      } catch (error) {
-        alert(error);
-      }
-    }
-    fetchProductsDetails();
-  }, [id]);
+    return function cleanup() {
+      dispatch(resetStatus());
+    };
+  }, []);
 
   const Details = () => {
     return (
@@ -55,7 +51,7 @@ export default function ProductDetails({id}) {
                 fit={"contain"}
                 h={{base: "100%", sm: "400px", lg: "500px"}}
                 rounded={"md"}
-                src={productDetails.image}
+                src={product.image}
                 w={"100%"}
               />
             </Flex>
@@ -66,19 +62,16 @@ export default function ProductDetails({id}) {
                   fontWeight={600}
                   lineHeight={1.1}
                 >
-                  {productDetails.title}
+                  {product.title}
                 </Heading>
-                <Rating
-                  numReviews={productDetails.rating.count}
-                  rating={productDetails.rating.rate}
-                />
+                <Rating numReviews={product.rating.count} rating={product.rating.rate} />
                 <Text
                   color={useColorModeValue("gray.900", "gray.400")}
                   fontSize={"3xl"}
                   fontWeight={600}
                   pt={4}
                 >
-                  ${productDetails.price}
+                  ${product.price}
                 </Text>
               </Box>
               <Stack
@@ -89,10 +82,10 @@ export default function ProductDetails({id}) {
                 <VStack spacing={{base: 4, sm: 6}}>
                   <Box display={"flex"} w={"100%"}>
                     <Badge colorScheme="green" px={"2"} rounded="full">
-                      {productDetails.category}
+                      {product.category}
                     </Badge>
                   </Box>
-                  <Text fontSize={"lg"}>{productDetails.description}</Text>
+                  <Text fontSize={"lg"}>{product.description}</Text>
                 </VStack>
                 <Box />
               </Stack>
@@ -120,9 +113,9 @@ export default function ProductDetails({id}) {
     );
   };
 
-  if (!isLoaded) {
-    return <DetailSkeleton />;
-  } else {
+  if (isLoaded === "success") {
     return <Details />;
+  } else {
+    return <DetailSkeleton />;
   }
 }

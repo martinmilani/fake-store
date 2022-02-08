@@ -1,7 +1,7 @@
 import {Container} from "@chakra-ui/react";
 import React from "react";
 
-import ProductList from "./components/ProductList";
+import ProductsList from "./components/ProductsList";
 import Title from "./components/Title";
 
 function index() {
@@ -9,7 +9,7 @@ function index() {
     <>
       <Container maxW="container.lg">
         <Title />
-        <ProductList />
+        <ProductsList />
       </Container>
     </>
   );

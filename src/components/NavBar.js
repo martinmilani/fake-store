@@ -1,12 +1,12 @@
 import {Link as WouterLink, useLocation} from "wouter";
 import React, {useState} from "react";
-import {Button, Flex, Text, Heading, IconButton, HStack, Badge, Center} from "@chakra-ui/react";
+import {Button, Flex, Text, Heading, IconButton, HStack, Box} from "@chakra-ui/react";
 import {CloseIcon, HamburgerIcon} from "@chakra-ui/icons";
 import {BsCart3} from "react-icons/bs";
 
 function NavBar() {
   const [display, setDisplay] = useState("none");
-  const [setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
 
   const navigate = (route) => {
     setLocation(route);
@@ -25,17 +25,17 @@ function NavBar() {
             </Heading>
           </Flex>
         </WouterLink>
-        <HStack spacing={2}>
-          <Flex alignItems={"flex-start"} direction={"row"}>
-            <IconButton
-              icon={<BsCart3 size={"1.5em"} />}
-              justifyContent={"flex-end"}
+        <HStack align={"center"} spacing={2}>
+          <Box>
+            <Button
+              colorScheme="whatsapp"
+              leftIcon={<BsCart3 size={"1.5rem"} />}
+              my={5}
               variant={"ghost"}
-            />
-            <Badge colorScheme="red" rounded={"full"}>
-              <Center px={1}>1</Center>
-            </Badge>
-          </Flex>
+            >
+              (0) Items
+            </Button>
+          </Box>
           <HStack display={["none", "none", "flex", "flex"]}>
             <Button
               aria-label={"Home"}

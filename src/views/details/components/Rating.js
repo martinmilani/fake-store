@@ -11,19 +11,13 @@ function Rating({rating, numReviews}) {
           const roundedRating = Math.round(rating * 2) / 2;
 
           if (roundedRating - i >= 1) {
-            return (
-              <BsStarFill
-                key={i}
-                color={i < rating ? "teal.500" : "gray.300"}
-                style={{marginLeft: "1"}}
-              />
-            );
+            return <BsStarFill key={i} color={"#5abc79"} style={{marginLeft: "1"}} />;
           }
           if (roundedRating - i === 0.5) {
-            return <BsStarHalf key={i} style={{marginLeft: "1"}} />;
+            return <BsStarHalf key={i} color={"#5abc79"} style={{marginLeft: "1"}} />;
           }
 
-          return <BsStar key={i} style={{marginLeft: "1"}} />;
+          return <BsStar key={i} color={"#5abc79"} style={{marginLeft: "1"}} />;
         })}
       <Box as="span" color="gray.600" fontSize="sm" ml="2">
         {numReviews} review{numReviews > 1 && "s"}

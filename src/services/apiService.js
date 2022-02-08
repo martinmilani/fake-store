@@ -1,8 +1,11 @@
 import axios from "axios";
 
+const headers = {};
+const baseURL = `${process.env.REACT_APP_API_URL}`;
+
 const instance = axios.create({
-  baseURL: "https://fakestoreapi.com",
-  headers: {"Content-Type": "application/json"},
+  baseURL,
+  headers,
 });
 
 export default instance;
