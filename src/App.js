@@ -7,6 +7,7 @@ import {getProducts} from "./redux/productsSlice";
 import Home from "./views/home";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import Cart from "./views/cart";
 import Details from "./views/details/components/ProductDetails";
 
 function App() {
@@ -22,7 +23,12 @@ function App() {
       <NavBar />
       <Switch>
         <Route path="/details/:id">{(params) => <Details id={params.id} />}</Route>
-        <Route component={Home} path="/" />
+        <Route path="/">
+          <Home />
+        </Route>
+        <Route path="/cart">
+          <Cart />
+        </Route>
       </Switch>
       <Footer />
     </Box>

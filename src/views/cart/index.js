@@ -1,11 +1,11 @@
-import React from "react";
 import {Container} from "@chakra-ui/react";
 
-import ProductDetails from "./components/ProductDetails";
+import BasketContent from "./components/BasketContent";
+
 function index() {
   return (
     <Container maxW="container.lg">
-      <ProductDetails />
+      <BasketContent />
     </Container>
   );
 }

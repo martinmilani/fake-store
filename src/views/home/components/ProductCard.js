@@ -10,11 +10,25 @@ import {
   Image,
   Spacer,
   Button,
+  useToast,
 } from "@chakra-ui/react";
+import {useDispatch} from "react-redux";
+
+import {addToBasket} from "../../../redux/basketSlice";
 
 function ProductCard({product}) {
+  const dispatch = useDispatch();
   const IMAGE = product.image;
   const link = `/details/${product.id}`;
+  const toast = useToast();
+
+  const showToast = () => {
+    toast({
+      title: "Product Added!",
+      status: "success",
+      duration: 1800,
+    });
+  };
 
   return (
     <Center py={12}>
@@ -50,7 +64,12 @@ function ProductCard({product}) {
           </Stack>
         </WouterLink>
         <Center my={4}>
-          <Button bgColor={"green.400"} color={"white"} rounded={"full"}>
+          <Button
+            bgColor={"green.400"}
+            color={"white"}
+            rounded={"full"}
+            onClick={() => dispatch(addToBasket({...product, quantity: 1}), showToast())}
+          >
             Add to cart
           </Button>
         </Center>

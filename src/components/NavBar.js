@@ -1,12 +1,16 @@
-import {Link as WouterLink, useLocation} from "wouter";
 import React, {useState} from "react";
+import {Link as WouterLink, useLocation} from "wouter";
 import {Button, Flex, Text, Heading, IconButton, HStack, Box} from "@chakra-ui/react";
 import {CloseIcon, HamburgerIcon} from "@chakra-ui/icons";
 import {BsCart3} from "react-icons/bs";
+import {useSelector} from "react-redux";
+
+import {getTotalQuantity} from "../redux/basketSlice";
 
 function NavBar() {
   const [display, setDisplay] = useState("none");
   const [location, setLocation] = useLocation();
+  const totalQuantity = useSelector(getTotalQuantity);
 
   const navigate = (route) => {
     setLocation(route);
@@ -32,8 +36,9 @@ function NavBar() {
               leftIcon={<BsCart3 size={"1.5rem"} />}
               my={5}
               variant={"ghost"}
+              onClick={() => navigate("/cart")}
             >
-              (0) Items
+              ({totalQuantity}) Items
             </Button>
           </Box>
           <HStack display={["none", "none", "flex", "flex"]}>

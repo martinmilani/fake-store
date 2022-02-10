@@ -12,11 +12,14 @@ import {
   StackDivider,
   useColorModeValue,
   Badge,
+  useToast,
 } from "@chakra-ui/react";
 import React, {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
 
+import {addToBasket} from "../../../redux/basketSlice";
+import ErrorBanner from "../../../components/ErrorBanner";
 import {getProduct, resetStatus} from "../../../redux/productSlice";
 
 import DetailSkeleton from "./DetailSkeleton";
@@ -25,7 +28,16 @@ import Rating from "./Rating";
 export default function ProductDetails({id}) {
   const dispatch = useDispatch();
   const {product} = useSelector((state) => state.product);
-  const isLoaded = useSelector((state) => state.product.status);
+  const status = useSelector((state) => state.product.status);
+  const toast = useToast();
+
+  const showToast = () => {
+    toast({
+      title: "Product Added!",
+      status: "success",
+      duration: 1800,
+    });
+  };
 
   useEffect(() => {
     dispatch(getProduct(id));
@@ -103,6 +115,7 @@ export default function ProductDetails({id}) {
                 size={"lg"}
                 textTransform={"uppercase"}
                 w={"full"}
+                onClick={() => dispatch(addToBasket({...product, quantity: 1}), showToast())}
               >
                 Add to cart
               </Button>
@@ -113,9 +126,14 @@ export default function ProductDetails({id}) {
     );
   };
 
-  if (isLoaded === "success") {
+  if (status === "success") {
     return <Details />;
   } else {
-    return <DetailSkeleton />;
+    return (
+      <>
+        <ErrorBanner status={status} />
+        <DetailSkeleton />
+      </>
+    );
   }
 }
