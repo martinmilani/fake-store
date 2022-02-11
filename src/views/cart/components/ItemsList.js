@@ -12,11 +12,19 @@ import {
 import {DeleteIcon} from "@chakra-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 
-import {deleteFromBasket, getTotalAmount} from "../../../redux/basketSlice";
+import {changeQuantity, deleteFromBasket, getTotalAmount} from "../../../redux/basketSlice";
 
 function ItemsList({basket}) {
   const dispatch = useDispatch();
   const totalAmount = useSelector(getTotalAmount);
+  const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const makeOptions = (item, index) => {
+    return (
+      <option key={index} value={item}>
+        {item}
+      </option>
+    );
+  };
 
   const renderItems = basket.map((item, index) => {
     return (
@@ -38,10 +46,13 @@ function ItemsList({basket}) {
                 <Flex alignItems="flex-end" justifyContent={"space-between"}>
                   <Flex flexDirection={"column"} justifyContent={"space-between"}>
                     <Flex alignItems="center" flexDirection="row">
-                      <Select>
-                        <option value="1">1</option>
-                        <option value="option2">2</option>
-                        <option value="option3">3</option>
+                      <Select
+                        value={item.quantity}
+                        onChange={(e) =>
+                          dispatch(changeQuantity({item: item, quantity: e.target.value}))
+                        }
+                      >
+                        {options.map(makeOptions)}
                       </Select>
                       <Text fontSize={["md", "xl"]} ml={2}>
                         u.

@@ -22,6 +22,12 @@ export const basketSlice = createSlice({
 
       state.basket = filtredArray;
     },
+
+    changeQuantity: (state, {payload}) => {
+      const item = state.basket.find((product) => product.id === payload.item.id);
+
+      item.quantity = Number(payload.quantity);
+    },
   },
 });
 
@@ -35,5 +41,5 @@ export const getTotalAmount = (state) => {
     return Number((basketItem.quantity * basketItem.price + total).toFixed(2));
   }, 0);
 };
-export const {addToBasket, deleteFromBasket} = basketSlice.actions;
+export const {addToBasket, deleteFromBasket, changeQuantity} = basketSlice.actions;
 export default basketSlice.reducer;

@@ -8,7 +8,8 @@ import Home from "./views/home";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Cart from "./views/cart";
-import Details from "./views/details/components/ProductDetails";
+import Details from "./views/details/";
+import NotFound from "./views/notFound";
 
 function App() {
   //const products = useSelector((state) => state.products);
@@ -28,6 +29,9 @@ function App() {
         </Route>
         <Route path="/cart">
           <Cart />
+        </Route>
+        <Route>
+          <NotFound />
         </Route>
       </Switch>
       <Footer />
