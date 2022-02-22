@@ -131,7 +131,7 @@ export default function ProductDetails({id}) {
   } else {
     return (
       <>
-        <ErrorBanner status={status} />
+        {status === "failed" && <ErrorBanner />}
         <DetailSkeleton />
       </>
     );

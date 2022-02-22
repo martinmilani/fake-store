@@ -18,18 +18,19 @@ const initState = {
 export const productSlice = createSlice({
   name: "product",
   initialState: initState,
-  extraReducers: {
-    [getProduct.pending]: (state) => {
-      state.status = "loading";
-    },
-    [getProduct.fulfilled]: (state, action) => {
-      state.status = "success";
-      state.product = action.payload;
-    },
-    [getProduct.rejected]: (state, payload) => {
-      state.status = "failed";
-      state.error = payload.error.message;
-    },
+  extraReducers(builder) {
+    builder
+      .addCase(getProduct.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(getProduct.fulfilled, (state, action) => {
+        state.status = "success";
+        state.product = action.payload;
+      })
+      .addCase(getProduct.rejected, (state, payload) => {
+        state.status = "failed";
+        state.error = payload.error.message;
+      });
   },
   reducers: {
     resetStatus: () => initState,

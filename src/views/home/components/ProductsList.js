@@ -21,7 +21,7 @@ export default function ProductsList() {
 
   return (
     <>
-      <ErrorBanner status={status} />
+      {status === "failed" && <ErrorBanner />}
       <Stack direction={"row"} flex="1" justify="space-around" width={"100%}"} wrap="wrap">
         {status === "success" ? renderProductsList : renderSkeletonList}
       </Stack>

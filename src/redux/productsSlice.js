@@ -16,18 +16,19 @@ export const producstsSlice = createSlice({
     status: "idle",
     error: null,
   },
-  extraReducers: {
-    [getProducts.pending]: (state) => {
-      state.status = "loading";
-    },
-    [getProducts.fulfilled]: (state, action) => {
-      state.status = "success";
-      state.products = action.payload;
-    },
-    [getProducts.rejected]: (state, payload) => {
-      state.status = "failed";
-      state.error = payload.error.message;
-    },
+  extraReducers(builder) {
+    builder
+      .addCase(getProducts.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(getProducts.fulfilled, (state, action) => {
+        state.status = "success";
+        state.products = action.payload;
+      })
+      .addCase(getProducts.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload.error.message;
+      });
   },
 });
 

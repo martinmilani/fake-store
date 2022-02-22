@@ -6,10 +6,12 @@ import {BsCart3} from "react-icons/bs";
 import {useSelector} from "react-redux";
 
 import {getTotalQuantity} from "../redux/basketSlice";
+import {logout} from "../services/authService";
 
 function NavBar() {
   const [display, setDisplay] = useState("none");
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
+  const {user} = useSelector((state) => state.user);
   const totalQuantity = useSelector(getTotalQuantity);
 
   const navigate = (route) => {
@@ -17,22 +19,30 @@ function NavBar() {
   };
 
   return (
-    <Flex bgColor={"white"}>
+    <Flex bgColor={"white"} borderBottom="1px" borderColor="gray.100">
       <Flex align={"center"} justify={"space-between"} px={4} top={"0.5rem"} w={"100%"}>
-        <WouterLink href="/">
-          <Flex cursor={"pointer"}>
-            <Heading as={"h3"} fontSize={{base: "md", md: "lg"}} my={6} size={"md"} w={"100%"}>
-              <Text as={"span"}>Fake </Text>
-              <Text as={"span"} color={"green.400"}>
-                Store
-              </Text>
-            </Heading>
-          </Flex>
-        </WouterLink>
+        <Flex direction={"column"}>
+          <WouterLink href="/">
+            <Flex cursor={"pointer"}>
+              <Heading as={"h3"} fontSize={{base: "md", md: "lg"}} my={6} size={"md"} w={"100%"}>
+                <Text as={"span"}>Fake </Text>
+                <Text as={"span"} color={"green.400"}>
+                  Store
+                </Text>
+                {user && (
+                  <Text color="gray.400" fontSize="sm" fontWeight={"thin"}>
+                    You are login as {user.email}
+                  </Text>
+                )}
+              </Heading>
+            </Flex>
+          </WouterLink>
+        </Flex>
         <HStack align={"center"} spacing={2}>
           <Box>
             <Button
               colorScheme="whatsapp"
+              cursor="pointer"
               leftIcon={<BsCart3 size={"1.5rem"} />}
               my={5}
               variant={"ghost"}
@@ -45,18 +55,52 @@ function NavBar() {
             <Button
               aria-label={"Home"}
               as="a"
+              cursor="pointer"
               my={5}
               variant={"ghost"}
               onClick={() => navigate("/")}
             >
               Home
             </Button>
-            <Button aria-label={"SignUp"} as="a" my={5} variant={"ghost"}>
-              Sign Up
-            </Button>
-            <Button aria-label={"SignIn"} as={"a"} bgColor={"green.400"} color={"white"} my={5}>
-              Sign In
-            </Button>
+            {!user ? (
+              <>
+                <Button
+                  aria-label={"SignUp"}
+                  as="a"
+                  cursor="pointer"
+                  my={5}
+                  variant={"ghost"}
+                  onClick={() => navigate("/register")}
+                >
+                  Register
+                </Button>
+                <Button
+                  aria-label={"SignIn"}
+                  as={"a"}
+                  bgColor={"green.400"}
+                  color={"white"}
+                  cursor="pointer"
+                  my={5}
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </Button>
+              </>
+            ) : (
+              <Button
+                aria-label={"SignIn"}
+                as={"a"}
+                bgColor={"green.400"}
+                color={"white"}
+                cursor="pointer"
+                my={5}
+                onClick={() => {
+                  logout(), setDisplay("none");
+                }}
+              >
+                Logout
+              </Button>
+            )}
           </HStack>
           <IconButton
             aria-label="Open-Menu"
@@ -90,6 +134,7 @@ function NavBar() {
             onClick={() => setDisplay("none")}
           />
         </Flex>
+        {/* === Sidebar === */}
         <Flex align={"center"} flexDir={"column"}>
           <WouterLink href="/" onClick={() => setDisplay("none")}>
             <Button
@@ -104,28 +149,53 @@ function NavBar() {
               Home
             </Button>
           </WouterLink>
-          <Button
-            aria-label={"SignIn"}
-            as="a"
-            fontSize={"2xl"}
-            h={"100%"}
-            py={10}
-            variant={"ghost"}
-            w={"100%"}
-          >
-            Sign In
-          </Button>
-          <Button
-            aria-label={"SignUp"}
-            as="a"
-            fontSize={"2xl"}
-            h={"100%"}
-            py={10}
-            variant={"ghost"}
-            w={"100%"}
-          >
-            Sign Up
-          </Button>
+          {!user ? (
+            <>
+              <Button
+                aria-label={"SignUp"}
+                as="a"
+                fontSize={"2xl"}
+                h={"100%"}
+                py={10}
+                variant={"ghost"}
+                w={"100%"}
+                onClick={() => {
+                  navigate("/register"), setDisplay("none");
+                }}
+              >
+                Register
+              </Button>
+              <Button
+                aria-label={"SignIn"}
+                as="a"
+                fontSize={"2xl"}
+                h={"100%"}
+                py={10}
+                variant={"ghost"}
+                w={"100%"}
+                onClick={() => {
+                  navigate("/login"), setDisplay("none");
+                }}
+              >
+                Login
+              </Button>
+            </>
+          ) : (
+            <Button
+              aria-label={"SignIn"}
+              as="a"
+              fontSize={"2xl"}
+              h={"100%"}
+              py={10}
+              variant={"ghost"}
+              w={"100%"}
+              onClick={() => {
+                logout(), setDisplay("none"), navigate("/");
+              }}
+            >
+              Logout
+            </Button>
+          )}
         </Flex>
       </Flex>
     </Flex>
